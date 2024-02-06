@@ -32,6 +32,8 @@ app.use(
 import { RegisterRoutes } from "./routes/routes";
 RegisterRoutes(app);
 
+import { errorHandlerMiddleware } from "./middleware/error-handler";
+app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 3000;
 
 const start = async () => {
