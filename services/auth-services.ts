@@ -38,7 +38,7 @@ export default class AuthService {
       throw new UnauthorizedError();
     }
     const isCorrectPassword = await user.comparePassword(params.password);
-    if (isCorrectPassword) {
+    if (!isCorrectPassword) {
       throw new UnauthorizedError();
     }
     const uuid = uuidv4();

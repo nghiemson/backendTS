@@ -28,6 +28,13 @@ app.use(
     res.sendFile(__dirname + "/tsoa/tsoa.json");
   });
 
+// middleware for file uploading
+import fileUpload from "express-fileupload";
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+}));
+
 // tsoa routes
 import { RegisterRoutes } from "./routes/routes";
 RegisterRoutes(app);
