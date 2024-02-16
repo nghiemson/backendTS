@@ -126,7 +126,25 @@ export class PostsController extends Controller {
             } else {
                 resolve();
             }
-        }
-    }
+        });
+    });
+  }
+
+  /**
+   * Deletes an existing post.
+   */
+
+  @Delete("/{postId}")
+  @OperationId("deletePost")
+  @Security("jwt")
+  @Response(StatusCodes.OK, "Post deleted")
+  @Response(StatusCodes.NOT_FOUND, "Post not found")
+  public async deletePost(
+    @Path() postId: string,
+    @Request() request: ExpressRequest
+  ): Promise<PostModel> {
+    const user = request.user as AuthenticatedUser;
+    const userId = user.id;
+    return new PostService().deletePost(userId, postId);
   }
 }
