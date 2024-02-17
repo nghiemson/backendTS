@@ -126,7 +126,7 @@ export class PostsController extends Controller {
             } else {
                 resolve();
             }
-        }
-    }
+        });
+    });
   }
 }

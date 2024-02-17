@@ -43,6 +43,7 @@ PostSchema.methods.toJson = function (): any {
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     attachmentId: this.attachmentId,
+    originalPostId: this.originalPostId,
   };
 };
 
