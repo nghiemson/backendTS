@@ -7,6 +7,92 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"User": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"email",
+					"username"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SetUsernameResponse": {
+				"properties": {
+					"user": {
+						"$ref": "#/components/schemas/User"
+					}
+				},
+				"required": [
+					"user"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SetUsernameParams": {
+				"properties": {
+					"username": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DeleteUserResponse": {
+				"properties": {
+					"reactionsDeleted": {
+						"type": "number",
+						"format": "double"
+					},
+					"attachmentsDeleted": {
+						"type": "number",
+						"format": "double"
+					},
+					"postsDeleted": {
+						"type": "number",
+						"format": "double"
+					},
+					"profileDeleted": {
+						"type": "number",
+						"format": "double"
+					},
+					"followsDeleted": {
+						"type": "number",
+						"format": "double"
+					},
+					"userDeleted": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"reactionsDeleted",
+					"attachmentsDeleted",
+					"postsDeleted",
+					"profileDeleted",
+					"followsDeleted",
+					"userDeleted"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"PostType": {
 				"enum": [
 					"post",
@@ -292,30 +378,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"User": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"name": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"id",
-					"name",
-					"email",
-					"username"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
 			"Follow": {
 				"properties": {
 					"id": {
@@ -477,6 +539,73 @@
 		}
 	},
 	"paths": {
+		"/api/v1/users/username": {
+			"post": {
+				"operationId": "setUsername",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SetUsernameResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request"
+					}
+				},
+				"description": "Set the username of the user",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SetUsernameParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/users": {
+			"delete": {
+				"operationId": "deleteUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DeleteUserResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "deletes a user and all their data",
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
 		"/api/v1/query/posts": {
 			"get": {
 				"operationId": "queryPosts",
@@ -1235,6 +1364,60 @@
 					}
 				},
 				"description": "get all the users that a user is following",
+				"tags": [
+					"Follow"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageNumber",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/v1/follow/{userId}/followers": {
+			"get": {
+				"operationId": "getUserFollowers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/FollowResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "get list of users that are following the specified user",
 				"tags": [
 					"Follow"
 				],
