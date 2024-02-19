@@ -2,12 +2,11 @@
   "name": "backendts",
   "version": "1.0.0",
   "description": "Backend in TypeScript and TSOA",
-  "main": "dist/app.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsoa spec-and-routes && npx tsc",
-    "dev": "concurrently \"npx tsc -w\" \"nodemon dist/app.js\"",
-    "start": "node dist/app.js"
+    "dev": "concurrently \"npx tsc -w\" \"nodemon dist/app.js\""
   },
   "repository": {
     "type": "git",
